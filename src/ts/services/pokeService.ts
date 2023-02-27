@@ -4,17 +4,13 @@ const BASE_URL: string = 'https://pokeapi.co/api/v2/pokemon-species/';
 
 export interface apiResponse {
   name: string;
+  color: {
+    name: string;
+  }
 }
 
-export async function getData(search: string) {
-    if (search.length >= 2) {
-    
-      const response = await axios
-      .get(BASE_URL + search);
-      const pokemon = response.data.name;
-      console.log(response);
-      
-      return pokemon;
-    }
-
-  }
+export async function getData(search: string):Promise<apiResponse> {   
+    let response = await axios
+    .get<apiResponse>(BASE_URL + search);
+    return response.data;
+}

@@ -2,19 +2,27 @@ import { getData } from "./services/pokeService";
 
 export function init() {
    let btn = document.querySelector('button') as HTMLButtonElement;
-   btn.addEventListener('click', searchPokemon);
+   btn.addEventListener('click', handleClick);
 }
 
-async function searchPokemon() {
+function handleClick() {
   const inputField = (document.querySelector('input') as HTMLInputElement);
   const searchText: string = inputField.value;
-  console.log(getData(searchText));
-  // printResponse();
+
+  if (searchText.length >= 2) {
+    searchPokemon(searchText);
+  }
+
 }
 
-/*
-function printResponse() {
- 
+async function searchPokemon(search: string) {
+  let response = await getData(search);
+  let pokemonName: string = response.name;
+  let pokemonColor: string = response.color.name;
+  printResponse(pokemonName, pokemonColor);
 }
 
-*/
+function printResponse(name: string, color: string) {
+  const infoContainer = document.querySelector('.poke-info') as HTMLDivElement;
+  infoContainer.innerHTML = `The pokemon ${name} is the color ${color}`;
+}
